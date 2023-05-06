@@ -50,7 +50,7 @@ CHK = new('h1,'h11);
 DP.display();
 CHK.display();
 DP=CHK;
-
+ 
 DP.display();
 end
  endmodule
