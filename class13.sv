@@ -1,5 +1,4 @@
-// Code your testbench here
-// or browse Examples
+
 class Packet;
 rand bit[2:0] mode; //randc for cyclic random 
 rand bit [7:0]data;
