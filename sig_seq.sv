@@ -17,10 +17,10 @@ class Sig_seq;
       if(prev_cntrl == 'h8){
       cntrl =='h0;
       }
-        if(prev_cntrl =='h0 && cnt<'h10){
+        if(prev_cntrl =='h0 && cnt<len){
       	cntrl=='h0;  
         }
-          if(prev_cntrl =='h0 && cnt>'h10){
+          if(prev_cntrl =='h0 && cnt>len){
           cntrl=='h1;
           }
           cntrl ==SOF->data==SOF_D;
