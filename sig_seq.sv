@@ -64,7 +64,7 @@ bit [3:0]cntrl;
         
         
         
-        repeat(100) @(posedge clk)
+        repeat(100) @(posedge clk);
           $stop(); 
       end
       
