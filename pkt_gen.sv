@@ -1,3 +1,5 @@
+// Code your testbench here
+// or browse Examples
 typedef enum logic[3:0] {IDLE='hf,SOF='h8,EOF='h1,DATA='h0} cntrl_e;
 typedef enum logic[31:0] {IDLE_D='h70707070,SOF_D='hfb_B5_55_55,EOF_D='h957575FD} data_e;
 
@@ -11,19 +13,23 @@ class Packet;
   
   constraint c1 {
     len >10;
-    if(cntrl=='hf||cntrl=='h1){
     
+    if(prev_cntrl=='hf ||prev_cntrl=='h1){
       cntrl inside {'hf,'h8};
     }
-      else if(cntrl =='h8){
+      if(prev_cntrl =='h8){
       cntrl == 'h0;
       }
-        else if (cntrl=='h0 && cnt<len){
+        if (prev_cntrl=='h0 && cnt<len){
         cntrl =='h0;
         }
-          else if (cntrl=='h0 && cnt>len){
+          if(prev_cntrl=='h0 && cnt>=len){
         cntrl =='h1;
         }
+//             if(prev_cntrl=='h1 ){
+//         cntrl =='h1;
+//         }
+            
         cntrl ==SOF -> data==SOF_D;
     	cntrl ==EOF -> data==EOF_D;
     cntrl ==IDLE -> data==IDLE_D;
@@ -43,10 +49,10 @@ class Packet;
 endclass
 
 module pkt_gen;
-  bit [3:0]cntrl;
-  bit [31:0]data;
-  cntrl_e txc;
-  data_e txd;
+  bit [31:0][3:0]cntrl;
+  bit [31:0][31:0]data;
+  cntrl_e [31:0] txc;
+  data_e [31:0]txd;
   
   bit[4:0]len;
   
@@ -56,17 +62,27 @@ module pkt_gen;
   
   always @(posedge clk)
   	begin
-      p1.randomize;
-      $cast(txc,p1.cntrl);
-      $cast(txd,p1.data);
-      //txd<=p1.data;
-      cntrl<=p1.cntrl;
-      data<=p1.data;
+     // p1.randomize;
+      for(int i =0 ;i<32 ;i++)
+        begin
+      	 p1.randomize;
+          cntrl[i]<=p1.cntrl;
+          data[i]=p1.data;
+          txc[i]=p1.cntrl;
+          txd[i]=p1.data;
+        end
+      //$cast(txc,p1.cntrl);
+      //$cast(txd,p1.data);
+      ///txd<=p1.data;
+      //data=p1.data;   
+      // cntrl<=p1.cntrl;
+          
+      //data<=p1.data;
       len<=p1.len;
       
-      $display("pkt len %d",len);
-      $display("the TXC %s and  data %h",txc.name(),txd);
-      $display("the TXC %h and  data %h",cntrl,data);
+     // $display("pkt len %d",len);
+     // $display("the TXC %s and  data %h",txc.name(),txd);
+      //$display("the TXC %h and  data %h",cntrl,data);
   
     end
   
