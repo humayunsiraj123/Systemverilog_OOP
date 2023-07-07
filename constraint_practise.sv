@@ -1,6 +1,7 @@
-// Code your testbench herep
+https://github.com/humayunsiraj123/Systemverilog_OOP/blob/main/constraint_practise.sv// Code your testbench herep
 // or browse Examples
 module test;
+  
   class RC;
     rand int arry[] ;
     rand int no;
